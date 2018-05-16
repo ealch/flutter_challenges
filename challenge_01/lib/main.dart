@@ -30,23 +30,8 @@ class HomePage extends StatelessWidget {
 class HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new ListView(
-      children: <Widget>[
-        _headerImage(),
-        new Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: new Column(
-            children: <Widget>[
-              _title(),
-              _subtitle(),
-              _readMore(),
-              _progressBar(),
-              _statistics(),
-              _backThisProject()
-            ],
-          ),
-        )
-      ],
+    return new Stack(
+      children: <Widget>[_headerImage(), _userAvatar(), _content()],
     );
   }
 
@@ -54,7 +39,34 @@ class HomeBody extends StatelessWidget {
     return new Image.asset(
       'assets/avengers.png',
       height: 150.0,
+      width: double.infinity,
       fit: BoxFit.cover,
+    );
+  }
+
+  Align _userAvatar() {
+    return new Align(
+      alignment: Alignment.centerRight,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 100.0, right: 16.0),
+        child: Avatar(),
+      ),
+    );
+  }
+
+  Padding _content() {
+    return new Padding(
+      padding: const EdgeInsets.only(top: 160.0, right: 16.0, left: 16.0),
+      child: new Column(
+        children: <Widget>[
+          _title(),
+          _subtitle(),
+          _readMore(),
+          _progressBar(),
+          _statistics(),
+          _backThisProject()
+        ],
+      ),
     );
   }
 
@@ -86,50 +98,52 @@ class HomeBody extends StatelessWidget {
       child: new Text(
         "Read more".toUpperCase(),
         style: new TextStyle(
-            color: Colors.red,
-            fontWeight: FontWeight.bold,
-            fontSize: 12.0
-        ),
+            color: Colors.red, fontWeight: FontWeight.bold, fontSize: 12.0),
       ),
     );
   }
 
-  Column _goal() {
-    return new Column(
-      children: <Widget>[
-        new Text(
-          "\$75,000",
-          style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold ),
-        ),
-        new Text("of \$100,000 goal",
-            style: new TextStyle(fontSize: 14.0, color: Colors.grey)),
-      ],
-    );
-  }
-
-  Column _backers() {
-    return new Column(
-      children: <Widget>[
-        new Text(
-          "300",
-          style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
-        ),
-        new Text("backers",
-            style: new TextStyle(fontSize: 14.0, color: Colors.grey)),
-      ],
-    );
-  }
-
-  Column _days() {
-    return new Column(
-      children: <Widget>[
-        new Text(
-          "30",
-          style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
-        ),
-        new Text("days to go",
-            style: new TextStyle(fontSize: 14.0, color: Colors.grey)),
-      ],
+  Padding _statistics() {
+    return new Padding(
+      padding: const EdgeInsets.all(25.0),
+      child: new Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          new Column(
+            children: <Widget>[
+              new Text(
+                "\$75,000",
+                style:
+                    new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
+              new Text("of \$100,000 goal",
+                  style: new TextStyle(fontSize: 14.0, color: Colors.grey)),
+            ],
+          ),
+          new Column(
+            children: <Widget>[
+              new Text(
+                "300",
+                style:
+                    new TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
+              ),
+              new Text("backers",
+                  style: new TextStyle(fontSize: 14.0, color: Colors.grey)),
+            ],
+          ),
+          new Column(
+            children: <Widget>[
+              new Text(
+                "300",
+                style:
+                    new TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
+              ),
+              new Text("backers",
+                  style: new TextStyle(fontSize: 14.0, color: Colors.grey)),
+            ],
+          )
+        ],
+      ),
     );
   }
 
@@ -143,49 +157,37 @@ class HomeBody extends StatelessWidget {
     );
   }
 
-  Padding _statistics() {
-    return new Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: new Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          _goal(),
-          _backers(),
-          _days(),
-        ],
-      ),
-    );
-  }
-
-  Padding _backThisProject() {
-    return new Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: new Center(
-          child: new RaisedButton(
-              onPressed: () {},
-              color: Colors.red,
-              textColor: Colors.white,
-              child: new Text("Back to project".toUpperCase()))),
-    );
-  }
-
-/*Center _avatar() {
+  Center _backThisProject() {
     return new Center(
-      child: new Container(
-          child: new Column(
-        children: <Widget>[
-          new Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: new CircleAvatar(
-              radius: 45.0,
-              backgroundImage: new AssetImage(
-                "assets/rocket.png",
-              ),
+        child: new RaisedButton(
+            onPressed: () {},
+            color: Colors.red,
+            textColor: Colors.white,
+            child: new Text("Back this project".toUpperCase())));
+  }
+}
+
+class Avatar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Column(
+      children: <Widget>[
+        new Container(
+          decoration: new BoxDecoration(
+            shape: BoxShape.circle,
+            border: new Border.all(
+              color: Colors.white,
+              width: 6.0,
             ),
           ),
-          new Text("Rocket", style: new TextStyle(fontSize: 16.0))
-        ],
-      )),
+          child: new CircleAvatar(
+            radius: 36.0,
+            backgroundImage: AssetImage("rocket.png"),
+          ),
+        ),
+        new Text('Rocket',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0))
+      ],
     );
-  }*/
+  }
 }
